@@ -15,5 +15,9 @@ namespace AppPerpustakaan
         public string NIK{ get; set; }
         public string Agama{ get; set; }
         public string JenisKelamin { get; internal set; }
+        public string Alamat { get; internal set; }
+        public string Kelas { get; internal set; }
+        public bool StatusAktif { get; internal set; }
+        internal JenisKeanggotaan JenisKeanggotaan { get; set; }
     }
 }

@@ -1,9 +1,11 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace AppPerpustakaan
 {
@@ -23,62 +25,70 @@ namespace AppPerpustakaan
 
         private void GetDataFromExcel()
         {
+                    List<Siswa> data = new List<Siswa>();
             try
             {
                 //Lets open the existing excel file and read through its content . Open the excel using openxml sdk
                 using (SpreadsheetDocument doc = SpreadsheetDocument.Open("database1.xlsx", false))
                 {
-                    //create the object for workbook part  
                     WorkbookPart workbookPart = doc.WorkbookPart;
-                    Sheets thesheetcollection = workbookPart.Workbook.GetFirstChild<Sheets>();
-                    List<Siswa> dataSiswa = new List<Siswa>();
-
-                    //using for each loop to get the sheet from the sheetcollection  
-                    foreach (Sheet thesheet in thesheetcollection)
+                    Sheet sheet = workbookPart.Workbook.Sheets.GetFirstChild<Sheet>();
+                    WorksheetPart worksheetPart = (WorksheetPart)workbookPart.GetPartById(sheet.Id);
+                    OpenXmlReader reader = OpenXmlReader.Create(worksheetPart);
+                    while (reader.Read())
                     {
-                        //statement to get the worksheet object by using the sheet id  
-                        Worksheet theWorksheet = ((WorksheetPart)workbookPart.GetPartById(thesheet.Id)).Worksheet;
-
-                        SheetData thesheetdata = (SheetData)theWorksheet.GetFirstChild<SheetData>();
-                        foreach (Row thecurrentrow in thesheetdata)
+                        if (reader.ElementType == typeof(Row))
                         {
-                            var siswa = new Siswa();
-
-
-                            foreach (Cell thecurrentcell in thecurrentrow)
+                            Row row = (Row)reader.LoadCurrentElement();
+                            List<string> list = new List<string>();
+                            if (row.RowIndex >= 3)
                             {
-                                //statement to take the integer value  
-                                string currentcellvalue = string.Empty;
-                                if (thecurrentcell.DataType != null)
+                                foreach (Cell cell in row.Elements<Cell>())
                                 {
-                                    if (thecurrentcell.DataType == CellValues.SharedString)
-                                    {
-
-                                        
-
-                                        int id;
-                                        if (Int32.TryParse(thecurrentcell.InnerText, out id))
-                                        {
-                                            SharedStringItem name = workbookPart.SharedStringTablePart.SharedStringTable.Elements<SharedStringItem>().ElementAt(0);
-                                            siswa.Nama = name?.Text.Text;
-
-                                            SharedStringItem nisn= workbookPart.SharedStringTablePart.SharedStringTable.Elements<SharedStringItem>().ElementAt(2);
-                                            siswa.NISN= nisn?.Text.Text;
-
-                                        }
-                                    }
+                                    string cellValue = GetCellValue(doc, cell);
+                                    list.Add(cellValue);
                                 }
-                                else
+                                var siswa = new Siswa()
                                 {
-                                }
+                                    Nama = list[1],
+                                    JenisKelamin = list[2],
+                                    NISN = list[3],
+                                    TempatLahir = list[4],
+                                    TanggalLahir = list[5],
+                                    NIK = list[6],
+                                    Agama = list[7],
+                                    Alamat = list[8],
+                                    Kelas= list[9],
+                                    StatusAktif =true,
+                                    JenisKeanggotaan=JenisKeanggotaan.Siswa,
+                                };
+
+                                data.Add(siswa);
                             }
+
+
                         }
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
+            }
+        }
+
+        private static string GetCellValue(SpreadsheetDocument doc, Cell cell)
+        {
+            SharedStringTablePart stringTablePart = doc.WorkbookPart.SharedStringTablePart;
+            string value = cell.CellValue.InnerXml;
+
+            if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+            {
+                return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
+            }
+            else
+            {
+                return value;
             }
         }
     }
