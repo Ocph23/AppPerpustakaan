@@ -1,13 +1,19 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace AppPerpustakaan
+namespace AppMain
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -17,15 +23,20 @@ namespace AppPerpustakaan
         public MainWindow()
         {
             InitializeComponent();
+           // _=LoadData();
+            _ = GetDataFromExcel();
+        }
 
-            GetDataFromExcel();
-
+        private async Task LoadData()
+        {
+            await using var ctx = new ApplicationDbContext();
+            await ctx.Database.MigrateAsync();
 
         }
 
-        private void GetDataFromExcel()
+        private async Task GetDataFromExcel()
         {
-            List<Siswa> data = new List<Siswa>();
+            List<Anggota> data = new List<Anggota>();
             try
             {
                 //Lets open the existing excel file and read through its content . Open the excel using openxml sdk
@@ -48,7 +59,7 @@ namespace AppPerpustakaan
                                     string cellValue = GetCellValue(doc, cell);
                                     list.Add(cellValue);
                                 }
-                                var siswa = new Siswa()
+                                var siswa = new Anggota()
                                 {
                                     Nama = list[1],
                                     JenisKelamin = list[2],
@@ -70,10 +81,16 @@ namespace AppPerpustakaan
                         }
                     }
                 }
+
+                await using var ctx = new ApplicationDbContext();
+
+                ctx.Anggotas.AddRange(data);
+                ctx.SaveChanges();
+
+
             }
             catch (Exception ex)
             {
-
             }
         }
 
