@@ -20,77 +20,84 @@ namespace AppMain
     /// </summary>
     public partial class MainWindow : Window
     {
+        public User UserModel { get; set; } = new User();
+
         public MainWindow()
         {
             InitializeComponent();
-           // _=LoadData();
+            this.DataContext = this;
             _ = GetDataFromExcel();
-        }
-
-        private async Task LoadData()
-        {
-            await using var ctx = new ApplicationDbContext();
-            await ctx.Database.MigrateAsync();
-
         }
 
         private async Task GetDataFromExcel()
         {
-            List<Anggota> data = new List<Anggota>();
-            try
+            await using var ctx = new ApplicationDbContext();
+            await ctx.Database.MigrateAsync();
+
+            if (!ctx.Users.Any())
             {
-                //Lets open the existing excel file and read through its content . Open the excel using openxml sdk
-                using (SpreadsheetDocument doc = SpreadsheetDocument.Open("database1.xlsx", false))
+                ctx.Users.Add(new User { Aktif = true, Name = "Administrator", UserName = "Admin", Password = User.HashPasword("Password#123") });
+                ctx.SaveChanges();
+            }
+
+            if (!ctx.Anggotas.Any())
+            {
+                List<Anggota> data = new List<Anggota>();
+                try
                 {
-                    WorkbookPart workbookPart = doc.WorkbookPart;
-                    Sheet sheet = workbookPart.Workbook.Sheets.GetFirstChild<Sheet>();
-                    WorksheetPart worksheetPart = (WorksheetPart)workbookPart.GetPartById(sheet.Id);
-                    OpenXmlReader reader = OpenXmlReader.Create(worksheetPart);
-                    while (reader.Read())
+                    //Lets open the existing excel file and read through its content . Open the excel using openxml sdk
+                    using (SpreadsheetDocument doc = SpreadsheetDocument.Open("databasefix.xlsx", false))
                     {
-                        if (reader.ElementType == typeof(Row))
+                        WorkbookPart workbookPart = doc.WorkbookPart;
+                        Sheet sheet = workbookPart.Workbook.Sheets.GetFirstChild<Sheet>();
+                        WorksheetPart worksheetPart = (WorksheetPart)workbookPart.GetPartById(sheet.Id);
+                        OpenXmlReader reader = OpenXmlReader.Create(worksheetPart);
+                        while (reader.Read())
                         {
-                            Row row = (Row)reader.LoadCurrentElement();
-                            List<string> list = new List<string>();
-                            if (row.RowIndex >= 3)
+                            if (reader.ElementType == typeof(Row))
                             {
-                                foreach (Cell cell in row.Elements<Cell>())
+                                Row row = (Row)reader.LoadCurrentElement();
+                                List<string> list = new List<string>();
+                                if (row.RowIndex >= 3)
                                 {
-                                    string cellValue = GetCellValue(doc, cell);
-                                    list.Add(cellValue);
+                                    foreach (Cell cell in row.Elements<Cell>())
+                                    {
+                                        string cellValue = GetCellValue(doc, cell);
+                                        list.Add(cellValue);
+                                    }
+
+                                    var siswa = new Anggota()
+                                    {
+                                        Nama = list[1].ToUpper(),
+                                        JenisKelamin = list[2],
+                                        NISN = list[3],
+                                        TempatLahir = list[4].ToUpper(),
+                                        TanggalLahir = list[5],
+                                        NIK = list[6],
+                                        Agama = list[7],
+                                        Alamat = list[8],
+                                        Kelas = list[9],
+                                        StatusAktif = true,
+                                        JenisKeanggotaan = JenisKeanggotaan.Siswa,
+                                    };
+
+                                    data.Add(siswa);
                                 }
-                                var siswa = new Anggota()
-                                {
-                                    Nama = list[1],
-                                    JenisKelamin = list[2],
-                                    NISN = list[3],
-                                    TempatLahir = list[4],
-                                    TanggalLahir = list[5],
-                                    NIK = list[6],
-                                    Agama = list[7],
-                                    Alamat = list[8],
-                                    Kelas = list[9],
-                                    StatusAktif = true,
-                                    JenisKeanggotaan = JenisKeanggotaan.Siswa,
-                                };
 
-                                data.Add(siswa);
+
                             }
-
-
                         }
                     }
+
+
+                    ctx.Anggotas.AddRange(data);
+                    ctx.SaveChanges();
+
+
                 }
-
-                await using var ctx = new ApplicationDbContext();
-
-                ctx.Anggotas.AddRange(data);
-                ctx.SaveChanges();
-
-
-            }
-            catch (Exception ex)
-            {
+                catch (Exception ex)
+                {
+                }
             }
         }
 
@@ -107,6 +114,47 @@ namespace AppMain
             {
                 return value;
             }
+        }
+
+        private void btnKeluar(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Yakin Menutup Aplikasi ? ", "Keluar", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
+        }
+
+        private void btnLogin(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(UserModel.UserName) || string.IsNullOrEmpty(UserModel.Password))
+            {
+                MessageBox.Show("Username dan Password  Tidak Boleh Kosong !");
+            }
+            else
+            {
+                using var context = new ApplicationDbContext();
+                var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == UserModel.UserName.ToLower());
+                if (user != null)
+                {
+                    var xx = User.HashPasword(UserModel.Password);
+
+                    if ( User.VerifyPassword(UserModel.Password, user.Password ))
+                    {
+                        var form = new MainApp();
+                        form.Show();
+                        this.Close();
+                        return;
+                    }
+                }
+                MessageBox.Show("Anda tidak memiliki akses !");
+            }
+        }
+
+        private void onchangePassword(object sender, RoutedEventArgs e)
+        {
+            PasswordBox password = (PasswordBox)sender;
+            UserModel.Password = password.Password;
         }
     }
 }
