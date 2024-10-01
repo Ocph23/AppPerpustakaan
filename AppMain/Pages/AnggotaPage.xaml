@@ -1,0 +1,53 @@
+﻿<Page x:Class="AppMain.Pages.AnggotaPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AppMain.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AnggotaPage">
+
+    <Page.Resources>
+        <Style TargetType="DataGridRowHeader">
+            <Setter Property="FontSize" Value="20"></Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="White" Content="DATA ANGGOTA"></Label>
+            <WrapPanel Grid.Column="1" HorizontalAlignment="Right">
+                <Label HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" 
+                      Foreground="White" Content="Cari"></Label>
+                <TextBox FontSize="14" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="250" Text="{Binding TextSearch}" ></TextBox>
+            </WrapPanel>
+        </Grid>
+
+        <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" Grid.Row="1" MinRowHeight="30" ColumnHeaderHeight="45">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="NISN" Width="auto" Binding="{Binding NISN}"/>
+                <DataGridTextColumn Header="Nama" Width="*" Binding="{Binding Nama}"/>
+                <DataGridTextColumn Header="Gender" Width="75" Binding="{Binding JenisKelamin}"/>
+                <DataGridTextColumn Header="Tempat Lahir" Width="auto" Binding="{Binding TempatLahir}"/>
+                <DataGridTextColumn Header="Tanggal Lahir" Width="auto" Binding="{Binding TanggalLahir}"/>
+                <DataGridTextColumn Header="Agama" Width="auto" Binding="{Binding Agama}"/>
+                <DataGridTextColumn Header="Jenis Keanggotaan" Width="auto" Binding="{Binding JenisKeanggotaan}"/>
+                <DataGridCheckBoxColumn Header="Status" Width="auto" Binding="{Binding StatusAktif}"/>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Detail" Command="{Binding DetailComman}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </Grid>
+</Page>

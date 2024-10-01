@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppMain"
-        mc:Ignorable="d"
-           Title="MainWindow" d:Height="650" d:Width="1000"  WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" >
+        mc:Ignorable="d" Title="MainWindow" d:Height="650" d:Width="1000"  
+        WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" >
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>
@@ -23,13 +23,14 @@
             <Label Content="SEKOLAH" HorizontalAlignment="Center" FontSize="18" Foreground="White" FontWeight="Bold"></Label>
             <StackPanel Margin="20">
                 <Button Margin="2" Content="BUKU" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
-                <Button Margin="2" Content="ANGGOTA" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
-                <Button  Margin="2" Content="KUNJUNGAN" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
-                <Button Margin="2" Content="STATISTIK" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
-                <Button Margin="2" Content="SETTING" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                <Button Click="menuAnggota" Margin="2" Content="ANGGOTA" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                <Button Click="menuKunjungan" Margin="2" Content="KUNJUNGAN" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                <Button Click="menuStatistik" Margin="2" Content="STATISTIK" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                <Button Click="menuSetting" Margin="2" Content="SETTING" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                <Button Click="menuKeluar" Margin="2" Content="KELUAR" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
             </StackPanel>
         </StackPanel>
-        <Frame Margin="5" Padding="10" Grid.Column="2" x:Name="frame"></Frame>
+        <Frame NavigationUIVisibility="Hidden" Margin="5" Padding="10" Grid.Column="2" x:Name="frame"></Frame>
     </Grid>
 
 </Window>

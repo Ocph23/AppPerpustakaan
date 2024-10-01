@@ -1,0 +1,41 @@
+﻿<Page x:Class="AppMain.Pages.DetailAnggotaPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AppMain.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="DetailAnggotaPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="White" Content="DETAIL ANGGOTA"></Label>
+            <WrapPanel Grid.Column="1" HorizontalAlignment="Right">
+                <Label HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" 
+                    Foreground="White" Content="Cari"></Label>
+                <TextBox  HorizontalAlignment="Right" Width="250" ></TextBox>
+
+            </WrapPanel>
+        </Grid>
+
+        <DataGrid Grid.Row="1" MinRowHeight="30" ColumnHeaderHeight="45">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="No" Width="*"/>
+                <DataGridTextColumn Header="Judul Buku" Width="*"/>
+                <DataGridTextColumn Header="Author" Width="*"/>
+                <DataGridTextColumn Header="Penerbit" Width="*"/>
+                <DataGridTextColumn Header="Tahun" Width="*"/>
+                <DataGridTextColumn Header="Kategori" Width="*"/>
+                <DataGridTextColumn Header="Jumlah" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

@@ -2,16 +2,8 @@
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AppMain
 {
@@ -118,7 +110,7 @@ namespace AppMain
 
         private void btnKeluar(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Yakin Menutup Aplikasi ? ", "Keluar", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = System.Windows.MessageBox.Show("Yakin Menutup Aplikasi ? ", "Keluar", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 this.Close();
@@ -129,7 +121,7 @@ namespace AppMain
         {
             if (string.IsNullOrEmpty(UserModel.UserName) || string.IsNullOrEmpty(UserModel.Password))
             {
-                MessageBox.Show("Username dan Password  Tidak Boleh Kosong !");
+                System.Windows.MessageBox.Show("Username dan Password  Tidak Boleh Kosong !");
             }
             else
             {
@@ -147,7 +139,7 @@ namespace AppMain
                         return;
                     }
                 }
-                MessageBox.Show("Anda tidak memiliki akses !");
+                System.Windows.MessageBox.Show("Anda tidak memiliki akses !");
             }
         }
 

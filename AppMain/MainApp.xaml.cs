@@ -22,6 +22,32 @@ namespace AppMain
         public MainApp()
         {
             InitializeComponent();
+            frame.Navigate( new Pages.BukuPage());
+        }
+
+        private void menuAnggota(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Pages.AnggotaPage());
+        }
+
+        private void menuKunjungan(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void menuStatistik(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void menuSetting(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void menuKeluar(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
