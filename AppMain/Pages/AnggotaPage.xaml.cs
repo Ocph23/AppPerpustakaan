@@ -28,6 +28,18 @@ namespace AppMain.Pages
             InitializeComponent();
             DataContext = new AnggotaPageViewModel();
         }
+
+       
+
+        private void TextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            var vm = DataContext as AnggotaPageViewModel;
+            var textBox = (System.Windows.Controls.TextBox)sender;
+            if (!string.IsNullOrEmpty(textBox.Text))
+            {
+                vm.TextSearch = textBox.Text;
+            }
+        }
     }
 
 
@@ -59,6 +71,9 @@ namespace AppMain.Pages
         private bool filterX(object obj)
         {
             var data = (Anggota)obj;
+            if (string.IsNullOrEmpty(TextSearch))
+                return true;
+
             if (data != null && !string.IsNullOrEmpty(TextSearch) && 
                 data.Nama.ToLower().Contains(TextSearch.ToLower()))
             {
