@@ -62,9 +62,9 @@ namespace AppMain
                                     {
                                         Nama = list[1].ToUpper(),
                                         JenisKelamin = list[2],
-                                        NISN = list[3],
+                                        NomorKartu = list[3],
                                         TempatLahir = list[4].ToUpper(),
-                                        TanggalLahir = list[5],
+                                        TanggalLahir = DateOnly.FromDateTime(DateTime.ParseExact(list[5],"dd-MM-yyyy", null)),
                                         NIK = list[6],
                                         Agama = list[7],
                                         Alamat = list[8],

@@ -13,4 +13,28 @@ namespace AppMain
         Lain
 
     }
+
+    public enum JenisKelamin
+    {
+        L, P
+    }
+
+    public enum Agama
+    {
+        Islam,
+        Kristen,
+        Katolik,
+        Hindu,
+        Budha,
+        KongHuChu
+    }
+
+    public enum Kelas
+    {
+        DKV,
+        MM,
+        RPL,
+        KI,
+    }
+
 }

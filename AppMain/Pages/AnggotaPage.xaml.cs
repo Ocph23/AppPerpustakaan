@@ -40,6 +40,12 @@ namespace AppMain.Pages
                 vm.TextSearch = textBox.Text;
             }
         }
+
+        private void addCommand(object sender, RoutedEventArgs e)
+        {
+            var form = new AddAnggotaForm();
+            form.ShowDialog();
+        }
     }
 
 
@@ -83,9 +89,9 @@ namespace AppMain.Pages
         }
 
 
-        private void LoadData()
+        private async void LoadData()
         {
-            using var context = new ApplicationDbContext();
+           await using var context = new ApplicationDbContext();
             var datas = context.Anggotas.ToList();
             foreach (var item in datas)
             {

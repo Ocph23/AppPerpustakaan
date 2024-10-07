@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppMain"
         mc:Ignorable="d" Title="MainWindow" d:Height="650" d:Width="1000"  
-        WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" >
+        WindowState="Maximized" WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="NoResize" >
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>

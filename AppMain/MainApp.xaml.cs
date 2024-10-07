@@ -24,7 +24,7 @@ namespace AppMain
         {
             InitializeComponent();
 
-            ReadBarcode();
+           //// ReadBarcode();
 
             frame.Navigate(new Pages.BukuPage());
         }
