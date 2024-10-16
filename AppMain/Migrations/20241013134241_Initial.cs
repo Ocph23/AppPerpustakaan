@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AppMain.Migrations
 {
     /// <inheritdoc />
-    public partial class _initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,14 +21,15 @@ namespace AppMain.Migrations
                     Nama = table.Column<string>(type: "text", nullable: false),
                     NomorKartu = table.Column<string>(type: "text", nullable: false),
                     TempatLahir = table.Column<string>(type: "text", nullable: false),
-                    TanggalLahir = table.Column<DateOnly>(type: "date", nullable: true),
+                    TanggalLahir = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     NIK = table.Column<string>(type: "text", nullable: false),
-                    Agama = table.Column<string>(type: "text", nullable: false),
-                    JenisKelamin = table.Column<string>(type: "text", nullable: false),
+                    Agama = table.Column<int>(type: "integer", nullable: false),
+                    JenisKelamin = table.Column<int>(type: "integer", nullable: false),
                     Alamat = table.Column<string>(type: "text", nullable: true),
                     Kelas = table.Column<string>(type: "text", nullable: false),
                     StatusAktif = table.Column<bool>(type: "boolean", nullable: false),
-                    JenisKeanggotaan = table.Column<int>(type: "integer", nullable: false)
+                    JenisKeanggotaan = table.Column<int>(type: "integer", nullable: false),
+                    Photo = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

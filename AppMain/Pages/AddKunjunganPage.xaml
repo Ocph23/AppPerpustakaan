@@ -1,0 +1,111 @@
+﻿<Window x:Class="AppMain.Pages.AddKunjunganPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AppMain.Pages"
+      mc:Ignorable="d" 
+        Width="750" Height="650"
+     WindowStartupLocation="CenterScreen" 
+     WindowState="Normal" 
+     ResizeMode="NoResize" 
+     WindowStyle="None"
+      Title="AddKunjunganPage">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid >
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#94C8F9"/>
+                <GradientStop Color="#001528" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Margin="20,20,20,20" >
+            <Label
+              FontSize="18"
+              FontWeight="Bold"
+              Content="DETAIL ANGGOTA"></Label>
+            <Button HorizontalAlignment="Right" Padding="15,0" Content="Keluar" Click="Button_Click"></Button>
+        </Grid>
+        <Grid Grid.Row="1" Margin="20,0,20,0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Top" Margin="0,0,30,0"  >
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Nomor Induk (Nomor Kartu)"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.NomorKartu}" />
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Nama"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.Nama}" />
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Tempat dan Tanggal Lahir"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding TTL}" />
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" >
+
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Jenis Kelamin"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.JenisKelamin}" />
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Jenis Keanggotaan"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.JenisKeanggotaan}"
+                              />
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0" Visibility="{Binding ShowKelas}">
+                    <Label Content="Kelas"></Label>
+                    <TextBox  Height="35" VerticalContentAlignment="Center" Text="{Binding Model.Kelas}"  />
+                </StackPanel>
+
+            </StackPanel>
+            <Button Grid.Column="2" Background="LightGray" Margin="10" VerticalAlignment="Top" Height="150" Click="Button_Click_1">
+                <Image Source="{Binding DisplayedImagePath}" x:Name="imagePhoto" />
+            </Button>
+        </Grid>
+        <Grid Grid.Row="2" Margin="20,20,20,20" >
+            <Label FontSize="18" FontWeight="Bold" Content="DATA KUNJUNGAN"></Label>
+        </Grid>
+        <Grid Grid.Row="3" Margin="20,0,20,0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Top" Margin="0,0,30,0"  >
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Mulai"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.NomorKartu}" />
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" >
+
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Keluar"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.JenisKelamin}" />
+                </StackPanel>
+               
+
+            </StackPanel>
+            
+        </Grid>
+    </Grid>
+</Window>

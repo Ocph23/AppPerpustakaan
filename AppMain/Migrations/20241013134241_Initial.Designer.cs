@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AppMain.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241007052926__initial")]
-    partial class _initial
+    [Migration("20241013134241_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,9 +33,8 @@ namespace AppMain.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Agama")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Agama")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Alamat")
                         .HasColumnType("text");
@@ -43,9 +42,8 @@ namespace AppMain.Migrations
                     b.Property<int>("JenisKeanggotaan")
                         .HasColumnType("integer");
 
-                    b.Property<string>("JenisKelamin")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("JenisKelamin")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Kelas")
                         .IsRequired()
@@ -63,11 +61,14 @@ namespace AppMain.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Photo")
+                        .HasColumnType("text");
+
                     b.Property<bool>("StatusAktif")
                         .HasColumnType("boolean");
 
-                    b.Property<DateOnly?>("TanggalLahir")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("TanggalLahir")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("TempatLahir")
                         .IsRequired()

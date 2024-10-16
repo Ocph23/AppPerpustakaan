@@ -10,7 +10,13 @@ namespace AppMain
 {
     public static class Navigator
     {
-        private static NavigationService NavigationService { get; } = (App.Current.MainWindow as MainApp).frame.NavigationService;
+        public static NavigationService NavigationService { get; set; }
+
+        private static NavigationService GetService()
+        {
+            var x = ((MainApp)App.Current.MainWindow).frame.NavigationService;
+            return x;
+        }
 
         public static void Navigate(Page page)
         {

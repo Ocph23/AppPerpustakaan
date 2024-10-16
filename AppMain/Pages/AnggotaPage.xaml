@@ -27,32 +27,40 @@
         </Grid>
         <Grid>
             <StackPanel HorizontalAlignment="Left">
-                <Label HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="White" Content="DATA ANGGOTA"></Label>
-                <WrapPanel Grid.Column="1" HorizontalAlignment="Right">
+                <Label HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="White" Content="DATA ANGGOTA"></Label>
+                <WrapPanel Margin="0,5" Grid.Column="1" HorizontalAlignment="Right">
                     <Label HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" 
                       Foreground="White" Content="Cari"></Label>
-                    <TextBox KeyDown="TextBox_KeyDown" FontSize="14" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="250" Text="{Binding TextSearch}" ></TextBox>
+                    <TextBox KeyDown="TextBox_KeyDown" FontSize="14" VerticalContentAlignment="Center" HorizontalAlignment="Right"
+                             Width="250" Text="{Binding TextSearch}" ></TextBox>
                 </WrapPanel>
             </StackPanel>
-            <Button Click="addCommand" Content="Tambah Anggota" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="20"></Button>
+            <Button Width="50" Height="50" Click="addCommand" Content="Tambah Anggota" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="20">
+                <Button.Background>
+                    <ImageBrush ImageSource="/plus.png"/>
+                </Button.Background>
+            </Button>
         </Grid>
 
         <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"
                   CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" 
-                  Grid.Row="2" MinRowHeight="30" ColumnHeaderHeight="45">
+                  Grid.Row="2" MinRowHeight="25" ColumnHeaderHeight="45">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Nomor Anggota" Width="auto" Binding="{Binding NomorKartu}"/>
-                <DataGridTextColumn Header="Nama" Width="*" Binding="{Binding Nama}"/>
-                <DataGridTextColumn Header="Gender" Width="75" Binding="{Binding JenisKelamin}"/>
-                <DataGridTextColumn Header="Tempat Lahir" Width="auto" Binding="{Binding TempatLahir}"/>
-                <DataGridTextColumn Header="Tanggal Lahir" Width="auto" Binding="{Binding TanggalLahir}"/>
-                <DataGridTextColumn Header="Agama" Width="auto" Binding="{Binding Agama}"/>
-                <DataGridTextColumn Header="Jenis Keanggotaan" Width="auto" Binding="{Binding JenisKeanggotaan}"/>
-                <DataGridCheckBoxColumn Header="Status" Width="auto" Binding="{Binding StatusAktif}"/>
+                <DataGridTextColumn Header="Nomor Anggota" Width="auto" IsReadOnly="True" Binding="{Binding NomorKartu}"/>
+                <DataGridTextColumn Header="Nama" Width="*" IsReadOnly="True" Binding="{Binding Nama}"/>
+                <DataGridTextColumn Header="JK" Width="75" IsReadOnly="True" Binding="{Binding JenisKelamin}"/>
+                <DataGridTextColumn Header="Tempat Lahir" Width="auto" IsReadOnly="True" Binding="{Binding TempatLahir}"/>
+                <DataGridTextColumn Header="Tanggal Lahir" Width="auto" IsReadOnly="True" Binding="{Binding TanggalLahir, StringFormat='dd-MM-yyyy'}"/>
+                <DataGridTextColumn Header="Agama" Width="auto" IsReadOnly="True" Binding="{Binding Agama}"/>
+                <DataGridTextColumn Header="Jenis Keanggotaan" Width="auto" IsReadOnly="True" Binding="{Binding JenisKeanggotaan}"/>
+                <DataGridTextColumn Header="Kelas" Width="auto" IsReadOnly="True" Binding="{Binding Kelas}"/>
+                <DataGridCheckBoxColumn Header="Foto"  Width="auto" IsReadOnly="True" Binding="{Binding HasPhoto}"/>
+                <DataGridCheckBoxColumn Header="Status" Width="auto" IsReadOnly="True" Binding="{Binding StatusAktif}" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Detail" Command="{Binding DetailComman}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"></MenuItem>
+                    <MenuItem Header="Edit" Command="{Binding EditCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

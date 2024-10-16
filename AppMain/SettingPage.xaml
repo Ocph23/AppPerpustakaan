@@ -1,0 +1,56 @@
+﻿<Window x:Class="AppMain.SettingPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppMain"
+        mc:Ignorable="d"
+         xmlns:properties="clr-namespace:AppMain.Properties"
+               Title="MainWindow"   WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" WindowState="Normal" ResizeMode="NoResize" Height="500" Width="548" >
+    <Grid  Background="#FF306B8A">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="20,20,0,0" >
+            <Label
+            FontSize="18"
+            FontWeight="Bold"
+            Content="Setting"></Label>
+        </StackPanel>
+        <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="20"  >
+            <StackPanel Margin="0,0,0,0">
+                <Label Content="Server"></Label>
+                <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Source={x:Static properties:Settings.Default},
+                      Path=Server}" />
+            </StackPanel>
+            <StackPanel Margin="0,0,0,0">
+                <Label Content="Database"></Label>
+                <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Source={x:Static properties:Settings.Default},
+                               Path=Database}" />
+            </StackPanel>
+            <StackPanel Margin="0,10,0,0">
+                <Label Content="User"></Label>
+                <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Source={x:Static properties:Settings.Default},
+                 Path=UserName}" />
+            </StackPanel>
+            <StackPanel Margin="0,10,0,0">
+                <Label Content="Password"></Label>
+                <TextBox  Height="35" VerticalContentAlignment="Center" Text="{Binding Source={x:Static properties:Settings.Default},
+                 Path=Password}" />
+            </StackPanel>
+            <StackPanel Margin="0,10,0,0">
+                <Label Content="Port"></Label>
+                <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Source={x:Static properties:Settings.Default},
+                 Path=Port}" />
+            </StackPanel>
+
+        </StackPanel>
+        <WrapPanel Grid.Row="2" Margin="20,0" HorizontalAlignment="Right">
+            <Button Padding="20" Width="100" Content="Keluar" Click="btnBatal" Background="#FA645B" Command="{Binding CancelCommand}"></Button>
+            <Button Padding="20" Width="100" Margin="5,0" Content="Simpan" Background="#7BD841" Click="btnTambah" Command="{Binding SaveCommand}"></Button>
+        </WrapPanel>
+    </Grid>
+</Window>

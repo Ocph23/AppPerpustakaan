@@ -1,0 +1,83 @@
+﻿<Page x:Class="AppMain.Pages.AddBukuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AppMain.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AddBukuPage">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Margin="20" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold"  Content="Tambah/Edit Buku"></Label>
+        <Grid Grid.Row="1" Margin="20,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="5">
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Kode Buku"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.Kode}" />
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Judul"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.Judul}" />
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Jumlah"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.Jumlah}" />
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Tahun Terbit"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.Tahun}" />
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="ISBN"></Label>
+                    <TextBox Height="35" VerticalContentAlignment="Center" Text="{Binding Model.ISBN}" />
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Penerbit"></Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Height="35" IsEditable="True" DisplayMemberPath="Nama" SelectedItem="{Binding Model.Penerbit}" ItemsSource="{Binding Penerbits}" />
+                        <Button Grid.Column="1" Width="25" Margin="5,0,0,0" Content="+" Command="{Binding AddPenerbitCommand}" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Penulis"></Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Height="35" IsEditable="True" SelectedItem="{Binding Model.Pengarang}" DisplayMemberPath="Nama" ItemsSource="{Binding Pengarangs}" />
+                        <Button Grid.Column="1" Width="25" Margin="5,0,0,0" Content="+"  Command="{Binding AddPengarangCommand}" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel Margin="0,10,0,0">
+                    <Label Content="Rak"></Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Height="35" IsEditable="True" SelectedItem="{Binding Model.Rak}" DisplayMemberPath="Lokasi" ItemsSource="{Binding Raks}" />
+                        <Button Grid.Column="1" Width="25" Margin="5,0,0,0" Content="+"  Command="{Binding AddRakCommand}" />
+                    </Grid>
+                </StackPanel>
+                <WrapPanel Grid.Row="2" Margin="20" HorizontalAlignment="Right">
+                    <Button Padding="20" Width="100" Content="Batal" Background="#FA645B" Command="{Binding CancelCommand}"></Button>
+                    <Button Padding="20" Width="100" Margin="5,0" Content="Simpan" Background="#7BD841" Command="{Binding SaveCommand}"></Button>
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
