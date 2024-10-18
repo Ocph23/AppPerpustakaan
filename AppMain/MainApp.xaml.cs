@@ -1,11 +1,14 @@
 ﻿using AppMain.Models;
 using AppMain.Pages;
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Spreadsheet;
 using IronBarCode;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,6 +19,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MessageBox = System.Windows.MessageBox;
 
 namespace AppMain
 {
@@ -26,6 +30,8 @@ namespace AppMain
     {
         private AddKunjunganPage formKunjungan;
         private KunjunganPage kunjunganPage;
+        private SerialPort _serialPort;
+        private bool _continue;
 
         public MainApp()
         {
@@ -35,6 +41,113 @@ namespace AppMain
             frame.Navigate(new Pages.BukuPage());
             Navigator.NavigationService = frame.NavigationService;
             this.KeyDown += MainApp_KeyDown;
+            var ports = SerialPort.GetPortNames();
+            List<List<string>> USBCOMlist = new List<List<string>>();
+            try
+            {
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2",
+                    "SELECT * FROM Win32_PnPEntity");
+                foreach (ManagementObject queryObj in searcher.Get())
+                {
+                    if (queryObj["Caption"].ToString().Contains("(COM"))
+                    {
+                        List<string> DevInfo = new List<string>();
+
+                        string Caption = queryObj["Caption"].ToString();
+                        int CaptionIndex = Caption.IndexOf("(COM");
+                        string CaptionInfo = Caption.Substring(CaptionIndex + 1).TrimEnd(')'); // make the trimming more correct                 
+                        DevInfo.Add(CaptionInfo);
+                        string deviceId = queryObj["deviceid"].ToString(); //"DeviceID"
+                        int vidIndex = deviceId.IndexOf("VID_");
+                        int pidIndex = deviceId.IndexOf("PID_");
+                        string vid = "", pid = "";
+
+                        if (vidIndex != -1 && pidIndex != -1)
+                        {
+                            string startingAtVid = deviceId.Substring(vidIndex + 4); // + 4 to remove "VID_"                    
+                            vid = startingAtVid.Substring(0, 4); // vid is four characters long
+                                                                 //Console.WriteLine("VID: " + vid);
+                            string startingAtPid = deviceId.Substring(pidIndex + 4); // + 4 to remove "PID_"                    
+                            pid = startingAtPid.Substring(0, 4); // pid is four characters long
+                        }
+
+                        DevInfo.Add(vid);
+                        DevInfo.Add(pid);
+
+                        USBCOMlist.Add(DevInfo);
+                    }
+                }
+            }
+            catch (ManagementException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
+            LoadScand();
+
+
+
+
+        }
+
+
+
+        public void Read()
+        {
+            while (_continue)
+            {
+                try
+                {
+                    string message = _serialPort.ReadLine();
+                    Console.WriteLine(message);
+                }
+                catch (TimeoutException) { }
+            }
+        }
+
+        private void LoadScand()
+        {
+            string name;
+            string message;
+            StringComparer stringComparer = StringComparer.OrdinalIgnoreCase;
+            Thread readThread = new Thread(Read);
+
+            // Create a new SerialPort object with default settings.
+            _serialPort = new SerialPort();
+
+            // Allow the user to set the appropriate properties.
+            _serialPort = new SerialPort("COM3", 9600, Parity.Even, 8, StopBits.Two);
+            _serialPort.PortName = "Com1";
+
+            _serialPort.ReadTimeout = 500;
+            _serialPort.WriteTimeout = 500;
+
+            _serialPort.Open();
+            _continue = true;
+            readThread.Start();
+
+            Console.Write("Name: ");
+            name = Console.ReadLine();
+
+            Console.WriteLine("Type QUIT to exit");
+
+            while (_continue)
+            {
+                message = Console.ReadLine();
+
+                if (stringComparer.Equals("quit", message))
+                {
+                    _continue = false;
+                }
+                else
+                {
+                    _serialPort.WriteLine(
+                        String.Format("<{0}>: {1}", name, message));
+                }
+            }
+
+            readThread.Join();
+            _serialPort.Close();
         }
 
         private void MainApp_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -179,7 +292,7 @@ namespace AppMain
 
         private void menuSetting(object sender, RoutedEventArgs e)
         {
-            var x=  new SettingPage();
+            var x = new SettingPage();
             x.ShowDialog();
         }
 
