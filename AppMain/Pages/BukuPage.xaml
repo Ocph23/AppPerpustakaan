@@ -19,29 +19,40 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Label HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Foreground="White" Content="DATA BUKU"></Label>
-            <WrapPanel Grid.Column="1" HorizontalAlignment="Right">
-                <Label HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" 
-                       Foreground="White" Content="Cari"></Label>
-                <TextBox  HorizontalAlignment="Right" Width="250" ></TextBox>
-
-            </WrapPanel>
+            <StackPanel HorizontalAlignment="Left">
+                <Label HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Foreground="White" Content="DATA BUKU"></Label>
+                <WrapPanel Margin="0,5" Grid.Column="1" HorizontalAlignment="Right">
+                    <Label HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" 
+                    Foreground="White" Content="Cari"></Label>
+                    <TextBox KeyDown="TextBox_KeyDown" FontSize="14" VerticalContentAlignment="Center" HorizontalAlignment="Right"
+                           Width="250" Text="{Binding TextSearch}" ></TextBox>
+                </WrapPanel>
+            </StackPanel>
+            <Button Click="addCommand" Content="Tambah Buku" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="20">
+                <Button.Background>
+                    <ImageBrush ImageSource="/plus.png"/>
+                </Button.Background>
+            </Button>
         </Grid>
 
-        <DataGrid Grid.Row="1" MinRowHeight="30" ColumnHeaderHeight="45">
+        <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"
+            CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" 
+            Grid.Row="2" MinRowHeight="25" ColumnHeaderHeight="45">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="No" Width="*"/>
-                <DataGridTextColumn Header="Judul Buku" Width="*"/>
-                <DataGridTextColumn Header="Author" Width="*"/>
-                <DataGridTextColumn Header="Penerbit" Width="*"/>
-                <DataGridTextColumn Header="Tahun" Width="*"/>
-                <DataGridTextColumn Header="Kategori" Width="*"/>
-                <DataGridTextColumn Header="Jumlah" Width="*"/>
+                <DataGridTextColumn Header="Kode" MinWidth="100" Binding="{Binding Kode }"/>
+                <DataGridTextColumn Header="Judul Buku" Width="*" Binding="{Binding Judul }"/>
+                <DataGridTextColumn Header="Jumlah" MinWidth="50" Binding="{Binding Jumlah }"/>
+                <DataGridTextColumn Header="Penulis" MinWidth="150"  Binding="{Binding Pengarang.Nama }"/>
+                <DataGridTextColumn Header="Penerbit" MinWidth="150"  Binding="{Binding Penerbit.Nama }"/>
+                <DataGridTextColumn Header="Tahun" MinWidth="50"  Binding="{Binding Tahun }"/>
+                <DataGridTextColumn Header="Rak" MinWidth="100" Binding="{Binding Rak.Lokasi }"/>
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Detail" Command="{Binding DetailComman}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"></MenuItem>
+                    <MenuItem Header="Edit" Command="{Binding EditCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </Page>

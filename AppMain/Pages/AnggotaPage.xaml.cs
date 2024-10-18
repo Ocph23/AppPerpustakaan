@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using AppMain.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace AppMain.Pages
             DataContext = new AnggotaPageViewModel();
         }
 
-       
+
 
         private void TextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -45,6 +46,12 @@ namespace AppMain.Pages
         {
             var form = new AddAnggotaForm();
             form.ShowDialog();
+            var vm = form.DataContext as AddAnggotaFormViewModel;
+            if (vm.Model.Id > 0) { 
+                var anggotaVM = DataContext as AnggotaPageViewModel;
+                anggotaVM._Items.Add(vm.Model);
+                anggotaVM.Items.Refresh();
+            }
         }
     }
 
@@ -57,19 +64,41 @@ namespace AppMain.Pages
 
         public ICommand DetailComman { get; set; }
 
+        public ICommand EditCommand { get; set; }
+
         public AnggotaPageViewModel()
         {
             Items = (CollectionView)CollectionViewSource.GetDefaultView(_Items);
             Items.Filter += filterX;
             DetailComman = new RelayCommand<Anggota>(DetailCommandAction);
+            EditCommand = new RelayCommand<Anggota>(EditCommandAction);
             LoadData();
+        }
+
+        private void EditCommandAction(Anggota? anggota)
+        {
+            if (SelectedItem != null)
+            {
+               
+                var window = new AddAnggotaForm(SelectedItem);
+                window.ShowDialog();
+
+                var vm = window.DataContext as AddAnggotaFormViewModel;
+                //SelectedItem.Photo = vm.Model.Photo;
+
+            }
         }
 
         private void DetailCommandAction(Anggota? anggota)
         {
-            if (SelectedItem!=null)
+            if (SelectedItem != null)
             {
-               Navigator.Navigate(new DetailAnggotaPage(SelectedItem));   
+               var window  = new DetailAnggotaPage(SelectedItem);
+                window.ShowDialog();
+
+                var vm = window.DataContext as DetailAnggotaViewModel;
+                SelectedItem.Photo = vm.Model.Photo;
+
             }
         }
 
@@ -81,7 +110,9 @@ namespace AppMain.Pages
                 return true;
 
             if (data != null && !string.IsNullOrEmpty(TextSearch) && 
-                data.Nama.ToLower().Contains(TextSearch.ToLower()))
+                (data.Nama.ToLower().Contains(TextSearch.ToLower()) 
+                || data.NomorKartu.ToLower().Contains(TextSearch.ToLower()) 
+                || (!string.IsNullOrEmpty(data.NIK) && data.NIK.ToLower().Contains(TextSearch.ToLower()))))
             {
                 return true;
             }
@@ -91,7 +122,7 @@ namespace AppMain.Pages
 
         private async void LoadData()
         {
-           await using var context = new ApplicationDbContext();
+            await using var context = new ApplicationDbContext();
             var datas = context.Anggotas.ToList();
             foreach (var item in datas)
             {
@@ -118,7 +149,7 @@ namespace AppMain.Pages
         public Anggota SelectedItem
         {
             get { return selectedItem; }
-            set {SetProperty(ref selectedItem , value); }
+            set { SetProperty(ref selectedItem, value); }
         }
 
 

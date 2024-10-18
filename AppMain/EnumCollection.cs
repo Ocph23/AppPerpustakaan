@@ -23,7 +23,7 @@ namespace AppMain
     {
         Islam,
         Kristen,
-        Katolik,
+        Katholik,
         Hindu,
         Budha,
         KongHuChu
@@ -31,10 +31,12 @@ namespace AppMain
 
     public enum Kelas
     {
+        None,
         DKV,
         MM,
         RPL,
         KI,
+        TKJ,
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml;
+﻿using AppMain.Models;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.EntityFrameworkCore;
@@ -61,12 +62,12 @@ namespace AppMain
                                     var siswa = new Anggota()
                                     {
                                         Nama = list[1].ToUpper(),
-                                        JenisKelamin = list[2],
+                                        JenisKelamin = (JenisKelamin)Enum.Parse(typeof(JenisKelamin), list[2]),
                                         NomorKartu = list[3],
                                         TempatLahir = list[4].ToUpper(),
-                                        TanggalLahir = DateOnly.FromDateTime(DateTime.ParseExact(list[5],"dd-MM-yyyy", null)),
+                                        TanggalLahir = DateTime.ParseExact(list[5], "dd-MM-yyyy", null).ToUniversalTime(),
                                         NIK = list[6],
-                                        Agama = list[7],
+                                        Agama = (Agama)Enum.Parse(typeof(Agama), list[7]),
                                         Alamat = list[8],
                                         Kelas = list[9],
                                         StatusAktif = true,
@@ -89,6 +90,7 @@ namespace AppMain
                 }
                 catch (Exception ex)
                 {
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -119,27 +121,34 @@ namespace AppMain
 
         private void btnLogin(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(UserModel.UserName) || string.IsNullOrEmpty(UserModel.Password))
+            try
             {
-                System.Windows.MessageBox.Show("Username dan Password  Tidak Boleh Kosong !");
-            }
-            else
-            {
-                using var context = new ApplicationDbContext();
-                var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == UserModel.UserName.ToLower());
-                if (user != null)
+                if (string.IsNullOrEmpty(UserModel.UserName) || string.IsNullOrEmpty(UserModel.Password))
                 {
-                    var xx = User.HashPasword(UserModel.Password);
-
-                    if ( User.VerifyPassword(UserModel.Password, user.Password ))
-                    {
-                        var form = new MainApp();
-                        form.Show();
-                        this.Close();
-                        return;
-                    }
+                    System.Windows.MessageBox.Show("Username dan Password  Tidak Boleh Kosong !");
                 }
-                System.Windows.MessageBox.Show("Anda tidak memiliki akses !");
+                else
+                {
+                    using var context = new ApplicationDbContext();
+                    var user = context.Users.SingleOrDefault(x => x.UserName.ToLower() == UserModel.UserName.ToLower());
+                    if (user != null)
+                    {
+                        var xx = User.HashPasword(UserModel.Password);
+
+                        if (User.VerifyPassword(UserModel.Password, user.Password))
+                        {
+                            var form = new MainApp();
+                            form.Show();
+                            this.Close();
+                            return;
+                        }
+                    }
+                    System.Windows.MessageBox.Show("Anda tidak memiliki akses !");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Maaf Terhadi Kesalahan !, Hubungi Administrator.");
             }
         }
 
@@ -147,6 +156,12 @@ namespace AppMain
         {
             PasswordBox password = (PasswordBox)sender;
             UserModel.Password = password.Password;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var setting = new SettingPage();
+            setting.ShowDialog();
         }
     }
 }

@@ -7,31 +7,83 @@
         mc:Ignorable="d" Title="MainWindow" d:Height="650" d:Width="1000"  
         WindowState="Maximized" WindowStartupLocation="CenterScreen"
         WindowStyle="None" ResizeMode="NoResize" >
+    <Window.Resources>
+        <Style TargetType="{x:Type MenuItem}">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                        <Grid SnapsToDevicePixels="true">
+                            <Border BorderBrush="LightGray" BorderThickness="0.5">
+                                <DockPanel>
+                                    <ContentPresenter x:Name="Icon" ContentSource="Icon" Margin="4,0,6,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" />
+                                    <Path x:Name="GlyphPanel" Fill="{TemplateBinding Foreground}" FlowDirection="LeftToRight" Margin="7,0,0,0" Visibility="Collapsed" VerticalAlignment="Center" />
+                                    <ContentPresenter x:Name="content" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </DockPanel>
+                            </Border>
+                            <Popup x:Name="PART_Popup" AllowsTransparency="true" Focusable="false" HorizontalOffset="1" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Bottom" VerticalOffset="-1">
+
+                                <Border BorderThickness="2" BorderBrush="Transparent" Background="Transparent">
+                                    <ScrollViewer x:Name="SubMenuScrollViewer" CanContentScroll="true" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                                        <Grid RenderOptions.ClearTypeHint="Enabled">
+                                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="true" Margin="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle" />
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="TextBlock.Foreground" Value="LightCyan" TargetName="content" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>
             <ColumnDefinition Width="80*"/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#94C8F9"/>
-                <GradientStop Color="#001528" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <StackPanel Background="#164470" >
-            <Image Width="80" Margin="40,20" Source="/logo.png" ></Image>
-            <Label HorizontalAlignment="Center" Content="PERPUSTAKAAN" Foreground="White" FontSize="18" FontWeight="Bold"></Label>
-            <Label Content="SEKOLAH" HorizontalAlignment="Center" FontSize="18" Foreground="White" FontWeight="Bold"></Label>
-            <StackPanel Margin="20">
-                <Button Margin="2" Content="BUKU" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
-                <Button Click="menuAnggota" Margin="2" Content="ANGGOTA" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
-                <Button Click="menuKunjungan" Margin="2" Content="KUNJUNGAN" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
-                <Button Click="menuStatistik" Margin="2" Content="STATISTIK" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
-                <Button Click="menuSetting" Margin="2" Content="SETTING" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
-                <Button Click="menuKeluar" Margin="2" Content="KELUAR" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+       
+        <Grid>
+            <Border>
+                <Border.Background>
+                    <ImageBrush ImageSource="/bgside.jpg" Stretch="UniformToFill"/>
+                </Border.Background>
+                <Border.Effect>
+                    <BlurEffect Radius="5" KernelType="Gaussian"/>
+                </Border.Effect>
+            </Border>
+            <StackPanel >
+            
+                <Image Width="80" Margin="40,20" Source="/logo.png" ></Image>
+                <Label HorizontalAlignment="Center" Content="PERPUSTAKAAN" Foreground="White" FontSize="18" FontWeight="Bold"></Label>
+                <Label Content="SEKOLAH" HorizontalAlignment="Center" FontSize="18" Foreground="White" FontWeight="Bold"></Label>
+                <StackPanel Margin="20">
+                    <Button Click="menuBuku" Margin="2" Content="BUKU" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                    <Button Margin="30,0,0,0" Content="Penerbit" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                    <Button Margin="30,0,0,0" Content="Penulis" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                    <Button Margin="30,0,0,0" Content="Rak" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                    <Button Click="menuAnggota" Margin="2" Content="ANGGOTA" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                    <Button Click="menuKunjungan" Margin="2" Content="KUNJUNGAN" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                    <Button Click="menuStatistik" Margin="2" Content="STATISTIK" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                    <Button Click="menuSetting" Margin="2" Content="SETTING" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                    <Button Click="menuKeluar" Margin="2" Content="KELUAR" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <Frame NavigationUIVisibility="Hidden" Margin="5" Padding="10" Grid.Column="2" x:Name="frame"></Frame>
+        </Grid>
+        <Frame NavigationUIVisibility="Hidden" Margin="2" Padding="10" Grid.Column="2" x:Name="frame">
+            <Frame.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#94C8F9"/>
+                    <GradientStop Color="#FF3974A9" Offset="1"/>
+                </LinearGradientBrush>
+            </Frame.Background>
+        </Frame>
     </Grid>
-
 </Window>

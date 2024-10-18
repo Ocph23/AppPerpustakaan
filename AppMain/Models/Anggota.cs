@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AppMain
+namespace AppMain.Models
 {
     public class Anggota : ObservableObject
     {
@@ -41,39 +42,39 @@ namespace AppMain
         }
 
 
-        private DateOnly? tanggalLahir;
+        private DateTime? tanggalLahir;
 
-        public DateOnly? TanggalLahir
+        public DateTime? TanggalLahir
         {
             get { return tanggalLahir; }
-            set { tanggalLahir = value; }
+            set { SetProperty(ref tanggalLahir, value); }
         }
 
 
 
-        private string nik;
+        private string? nik;
 
-        public string NIK
+        public string? NIK
         {
             get { return nik; }
-            set { nik = value; }
+            set { SetProperty(ref nik, value); }
         }
 
-        private string agama;
+        private Agama agama;
 
-        public string Agama
+        public Agama Agama
         {
             get { return agama; }
-            set { SetProperty(ref agama , value); }
+            set { SetProperty(ref agama, value); }
         }
 
 
-        private string jenis;
+        private JenisKelamin jenis;
 
-        public string JenisKelamin
+        public JenisKelamin JenisKelamin
         {
             get { return jenis; }
-            set { SetProperty(ref jenis , value); }
+            set { SetProperty(ref jenis, value); }
         }
 
 
@@ -82,7 +83,7 @@ namespace AppMain
         public string? Alamat
         {
             get { return alamat; }
-            set {SetProperty(ref alamat , value); }
+            set { SetProperty(ref alamat, value); }
         }
 
         private string kelas;
@@ -90,7 +91,7 @@ namespace AppMain
         public string Kelas
         {
             get { return kelas; }
-            set { SetProperty (ref kelas , value); }
+            set { SetProperty(ref kelas, value); }
         }
 
         private bool statusAktif;
@@ -98,7 +99,7 @@ namespace AppMain
         public bool StatusAktif
         {
             get { return statusAktif; }
-            set { SetProperty(ref statusAktif , value); }
+            set { SetProperty(ref statusAktif, value); }
         }
 
         private JenisKeanggotaan jenisKeanggotaan;
@@ -106,8 +107,26 @@ namespace AppMain
         public JenisKeanggotaan JenisKeanggotaan
         {
             get { return jenisKeanggotaan; }
-            set {SetProperty(ref jenisKeanggotaan, value); }
+            set { SetProperty(ref jenisKeanggotaan, value); }
         }
 
+
+        private string? photo;
+
+        public string? Photo
+        {
+            get { return photo; }
+            set { SetProperty(ref photo, value); }
+        }
+
+
+        private bool hasPhoto;
+
+        [NotMapped]
+        public bool HasPhoto
+        {
+            get { return !string.IsNullOrEmpty(Photo); }
+            set { SetProperty(ref hasPhoto, value); }
+        }
     }
 }
