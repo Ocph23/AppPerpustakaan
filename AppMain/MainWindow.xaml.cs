@@ -11,6 +11,7 @@ namespace AppMain
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    ///LIbrary //https://github.com/BasselTech/usb-barcode-scanner-lib
     public partial class MainWindow : Window
     {
         public User UserModel { get; set; } = new User();
