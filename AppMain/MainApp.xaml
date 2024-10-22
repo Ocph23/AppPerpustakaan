@@ -65,8 +65,9 @@
                 <Label HorizontalAlignment="Center" Content="PERPUSTAKAAN" Foreground="White" FontSize="18" FontWeight="Bold"></Label>
                 <Label Content="SEKOLAH" HorizontalAlignment="Center" FontSize="18" Foreground="White" FontWeight="Bold"></Label>
                 <StackPanel Margin="20">
+                    <Button Click="menuHome" Margin="2" Content="Home" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
                     <Button Click="menuBuku" Margin="2" Content="BUKU" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
-                    <Button Margin="30,0,0,0" Content="Penerbit" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
+                    <Button Click="Button_Click" Margin="30,0,0,0" Content="Penerbit" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
                     <Button Margin="30,0,0,0" Content="Penulis" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
                     <Button Margin="30,0,0,0" Content="Rak" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>
                     <Button Click="menuAnggota" Margin="2" Content="ANGGOTA" Padding="10" HorizontalContentAlignment="Left" FontSize="15" Foreground="White" FontWeight="Bold" Background="Transparent"></Button>

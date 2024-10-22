@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="bgside.jpg" />
     <None Remove="cogwheel.png" />
+    <None Remove="databasex.xlsx" />
     <None Remove="logo.png" />
     <None Remove="Photos\0056609149.jpg" />
     <None Remove="plus.png" />
@@ -48,19 +49,15 @@
     <Resource Include="plus.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="USBBarcodeLIB\USB-Barcode-Scanner.dll">
+    <Content Include="databasex.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="USBBarcodeLIB\USB-Barcode-Scanner.pdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Content Include="Photos\0056609149.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\usb-barcode-scanner-lib\usb-barcode-scanner-lib.csproj" />
     <ProjectReference Include="..\ReportModel\ReportModel.csproj" />
   </ItemGroup>
 
@@ -86,12 +83,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="USBHIDDRIVER">
-      <HintPath>USBBarcodeLIB\Release\USBHIDDRIVER.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
+    <Compile Update="Pages\PenerbitPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>

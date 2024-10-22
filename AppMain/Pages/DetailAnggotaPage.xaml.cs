@@ -20,9 +20,22 @@ namespace AppMain.Pages
         {
             InitializeComponent();
             DataContext = vm = new DetailAnggotaViewModel(anggota);
-            if (!string.IsNullOrEmpty(anggota.Photo))
+            LoadImage(anggota);
+        }
+
+        private void LoadImage(Anggota anggota)
+        {
+            try
             {
-                imagePhoto.Source = new BitmapImage(new Uri($"{AppDomain.CurrentDomain.BaseDirectory}/Photos/{anggota.Photo}"));
+                var file = $"{AppDomain.CurrentDomain.BaseDirectory}/Photos/{anggota.Photo}";
+                if (!string.IsNullOrEmpty(anggota.Photo) && File.Exists(file))
+                {
+                    imagePhoto.Source = new BitmapImage(new Uri(file));
+                }
+            }
+            catch (Exception)
+            {
+
             }
         }
 

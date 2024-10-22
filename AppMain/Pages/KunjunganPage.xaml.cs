@@ -69,6 +69,12 @@ namespace AppMain.Pages
             _Items.Clear();
             foreach (var item in Context.Kunjungans.Where(x => DateOnly.FromDateTime(x.Masuk) == DateOnly.FromDateTime(SelectedDate)).Include(x => x.Anggota).ToList())
             {
+                item.Masuk = item.Masuk.ToUniversalTime();
+                if (item.Keluar != null)
+                {
+                item.Keluar= item.Keluar.Value.ToUniversalTime();
+
+                }
                  _Items.Add(item);
             }
             Items.Refresh();

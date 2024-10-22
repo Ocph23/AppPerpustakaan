@@ -40,7 +40,7 @@ namespace AppMain
                 try
                 {
                     //Lets open the existing excel file and read through its content . Open the excel using openxml sdk
-                    using (SpreadsheetDocument doc = SpreadsheetDocument.Open("databasefix.xlsx", false))
+                    using (SpreadsheetDocument doc = SpreadsheetDocument.Open("databasex.xlsx", false))
                     {
                         WorkbookPart workbookPart = doc.WorkbookPart;
                         Sheet sheet = workbookPart.Workbook.Sheets.GetFirstChild<Sheet>();
@@ -66,12 +66,13 @@ namespace AppMain
                                         JenisKelamin = (JenisKelamin)Enum.Parse(typeof(JenisKelamin), list[2]),
                                         NomorKartu = list[3],
                                         TempatLahir = list[4].ToUpper(),
-                                        TanggalLahir = DateTime.ParseExact(list[5], "dd-MM-yyyy", null).ToUniversalTime(),
+                                        TanggalLahir = DateTime.ParseExact(list[5].Replace("`",""), "dd-MM-yyyy", null).ToUniversalTime(),
                                         NIK = list[6],
                                         Agama = (Agama)Enum.Parse(typeof(Agama), list[7]),
                                         Alamat = list[8],
                                         Kelas = list[9],
                                         StatusAktif = true,
+                                        Photo = $"{list[3].ToString()}.jpg",
                                         JenisKeanggotaan = JenisKeanggotaan.Siswa,
                                     };
 
@@ -99,7 +100,7 @@ namespace AppMain
         private static string GetCellValue(SpreadsheetDocument doc, Cell cell)
         {
             SharedStringTablePart stringTablePart = doc.WorkbookPart.SharedStringTablePart;
-            string value = cell.CellValue.InnerXml;
+            string value = cell.CellValue?.InnerXml;
 
             if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
             {

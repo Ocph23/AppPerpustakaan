@@ -1,6 +1,5 @@
 ﻿using AppMain.Models;
 using AppMain.Pages;
-using BasselTech.UsbBarcodeScanner;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -22,7 +21,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using USBHIDDRIVER;
 using MessageBox = System.Windows.MessageBox;
 
 namespace AppMain
@@ -35,71 +33,15 @@ namespace AppMain
         private AddKunjunganPage formKunjungan;
         private KunjunganPage kunjunganPage;
         private bool _continue;
-        private UsbBarcodeScanner scanner;
-        private USBInterface usb;
 
         public MainApp()
         {
             InitializeComponent();
 
             //// ReadBarcode();
-            frame.Navigate(new Pages.BukuPage());
+            frame.Navigate(new Pages.HomePage());
             Navigator.NavigationService = frame.NavigationService;
-            this.KeyDown += MainApp_KeyDown;
-            //var ports = SerialPort.GetPortNames();
 
-
-            // Subscribe to BarcodeScanned event
-            scanner = new UsbBarcodeScanner();
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                scanner.BarcodeScanned += (sender, args) =>
-                {
-
-                    Debug.WriteLine($"Scanned barcode: {args.Barcode}");
-                };
-
-            }));
-
-            scanner.Start();
-            // Start capturing barcode scans
-
-            //LoadScand();
-
-
-
-
-        }
-
-
-        private Task LoadScand()
-        {
-            try
-            {
-
-
-                usb = new USBHIDDRIVER.USBInterface("VID_0483", "PID_5710");
-
-                String[] list = usb.getDeviceList();
-
-                usb.enableUsbBufferEvent(new System.EventHandler(myEventCacher));
-                var connect=usb.Connect();
-
-
-                usb.startRead();
-
-                return Task.CompletedTask;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
-
-        private void myEventCacher(object? sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private void MainApp_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -227,6 +169,17 @@ namespace AppMain
         private void menuBuku(object sender, RoutedEventArgs e)
         {
             frame.Navigate(new Pages.BukuPage());
+        }
+
+        private void menuHome(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Pages.HomePage());
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            frame.Navigate(new Pages.PenerbitPage());
         }
     }
 }
