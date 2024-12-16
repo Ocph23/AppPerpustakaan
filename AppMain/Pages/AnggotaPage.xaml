@@ -61,6 +61,7 @@
                 <ContextMenu>
                     <MenuItem Header="Detail" Command="{Binding DetailComman}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"></MenuItem>
                     <MenuItem Header="Edit" Command="{Binding EditCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"></MenuItem>
+                    <MenuItem Header="Edit" Command="{Binding PrintCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

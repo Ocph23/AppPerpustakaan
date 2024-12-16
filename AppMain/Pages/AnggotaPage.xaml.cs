@@ -65,6 +65,7 @@ namespace AppMain.Pages
         public ICommand DetailComman { get; set; }
 
         public ICommand EditCommand { get; set; }
+        public ICommand PrintCommand { get; set; }
 
         public AnggotaPageViewModel()
         {
@@ -72,7 +73,18 @@ namespace AppMain.Pages
             Items.Filter += filterX;
             DetailComman = new RelayCommand<Anggota>(DetailCommandAction);
             EditCommand = new RelayCommand<Anggota>(EditCommandAction);
+            PrintCommand = new RelayCommand<Anggota>(PritCommandAction);
             LoadData();
+        }
+
+        private void PritCommandAction(Anggota? anggota)
+        {
+            if (SelectedItem != null)
+            {
+                var window = new PrintKartuPelajarPage();
+                window.ShowDialog();
+
+            }
         }
 
         private void EditCommandAction(Anggota? anggota)

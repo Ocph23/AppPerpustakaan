@@ -58,10 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ReportModel\ReportModel.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <SplashScreen Include="Splash.png" />
   </ItemGroup>
 
@@ -73,6 +69,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Update="Reports\KartuPelajar.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Reports\Report1.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -80,6 +79,10 @@
 
   <ItemGroup>
     <Folder Include="DataSources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReportModel\ReportModel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
