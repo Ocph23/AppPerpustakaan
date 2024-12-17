@@ -24,7 +24,7 @@ namespace AppMain.Pages
             var tahun = 2024;
 
 
-            var source = dbcontext.Anggotas.Where(x => x.NomorKartu == "0082859664").ToList();
+            var source = dbcontext.Anggotas.Take(5).ToList();
             foreach (var x in source)
             {
                var itemx = new AnggotaModel
@@ -34,7 +34,7 @@ namespace AppMain.Pages
                     TTTL = $"{x.TempatLahir.ToUpperInvariant()}, {x.TanggalLahir.Value.ToString("dd MMMM yyyy")}",
                     Nama = x.Nama,
                     NIS = x.NomorKartu,
-                    Photo = "File:\\" + GetImage($"{AppDomain.CurrentDomain.BaseDirectory}Photos\\{x.Photo}"),
+                    Photo = GetImage($"{AppDomain.CurrentDomain.BaseDirectory}Photos\\{x.Photo}", x.NomorKartu),
                     Keahlian = x.Kelas
                 };
 
@@ -42,24 +42,6 @@ namespace AppMain.Pages
 
             }
 
-
-
-
-            //dataSource = (from x in dbcontext.Anggotas.Where(x=>x.NomorKartu== "0082859664")
-            //             select new AnggotaModel
-            //             {
-            //                 Agama = x.Agama.ToString(),
-            //                 JenisKelamin = x.JenisKelamin.ToString(),
-            //                 TTTL = x.TempatLahir,
-            //                 Nama = x.Nama,
-            //                 NIS = x.NomorKartu,
-            //                 Photo = "File:\\"+ GetImage($"{AppDomain.CurrentDomain.BaseDirectory}Photos\\{x.Photo}"),
-            //                 Keahlian = "Jurusan"
-            //             }).ToList();
-
-
-
-            //LocalReport report = new LocalReport();
             string reportPath = $"{AppDomain.CurrentDomain.BaseDirectory}/Reports/KartuPelajar.rdlc";
             this.reportViewer.LocalReport.EnableExternalImages = true;
             this.reportViewer.LocalReport.ReportPath = reportPath;
@@ -81,21 +63,23 @@ namespace AppMain.Pages
             this.reportViewer.RefreshReport();
         }
 
-        private string GetImage(string file)
+        private string GetImage(string file, string nomorKartu)
         {
             try
             {
+
                 if (!File.Exists(file))
                     return "";
 
+                var newFileName = $"{nomorKartu}.png";
                 if (!Directory.Exists("Print"))
                     Directory.CreateDirectory("Print");
 
                 var bitmap1 = (Bitmap)Bitmap.FromFile(file);
                 bitmap1.RotateFlip(RotateFlipType.Rotate90FlipXY);
-                var fileName = $"{AppDomain.CurrentDomain.BaseDirectory}Print\\file1.png";
+                var fileName = $"{AppDomain.CurrentDomain.BaseDirectory}Print\\{newFileName}";
                 bitmap1.Save(fileName);
-                return fileName;
+                return $"File:\\{fileName}";
             }
             catch (System.IO.FileNotFoundException)
             {
