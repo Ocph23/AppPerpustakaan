@@ -1,11 +1,10 @@
-﻿using AppMain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Reporting.WinForms;
 using ReportModel;
-using System.Drawing;
 using System.IO;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Media.Imaging;
+using ZXing;
 
 namespace AppMain.Pages
 {
@@ -37,6 +36,37 @@ namespace AppMain.Pages
                     Photo = GetImage($"{AppDomain.CurrentDomain.BaseDirectory}Photos\\{x.Photo}", x.NomorKartu),
                     Keahlian = x.Kelas
                 };
+
+
+                try
+                {
+                    System.Drawing.Image img = null;
+                    BitmapImage bimg = new BitmapImage();
+                    using (var ms = new MemoryStream())
+                    {
+                        BarcodeWriter< writer;
+                        writer = new ZXing.BarcodeWriter() { Format = BarcodeFormat.QR_CODE };
+                        writer.Options.Height = 80;
+                        writer.Options.Width = 280;
+                        writer.Options.PureBarcode = true;
+                        img = writer.Write(this.txtbarcodecontent.Text);
+                        img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        ms.Position = 0;
+                        bimg.BeginInit();
+                        bimg.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                        bimg.CacheOption = BitmapCacheOption.OnLoad;
+                        bimg.UriSource = null;
+                        bimg.StreamSource = ms;
+                        bimg.EndInit();
+                        this.imgbarcode.Source = bimg;// return File(ms.ToArray(), "image/jpeg");  
+                        this.tbkbarcodecontent.Text = this.txtbarcodecontent.Text;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
 
                 dataSource.Add(itemx);
 

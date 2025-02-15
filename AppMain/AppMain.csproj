@@ -34,6 +34,8 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
     <PackageReference Include="ReportViewerCore.WinForms" Version="15.1.23" />
     <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="ZXing.Net" Version="0.16.10" />
+    <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
